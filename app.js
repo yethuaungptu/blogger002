@@ -31,9 +31,15 @@ app.use(
   })
 );
 
-mongoose.connect("mongodb://127.0.0.1/blogger002db");
+mongoose.connect(
+  "mongodb+srv://yethu:ye123@blogger002.qgy2dbk.mongodb.net/?retryWrites=true&w=majority"
+);
 var db = mongoose.connection;
 db.on("error", console.error.bind("MongoDB connection error at blogger 002"));
+
+// mongoose.connect("mongodb://127.0.0.1/blogger002db");
+// var db = mongoose.connection;
+// db.on("error", console.error.bind("MongoDB connection error at blogger 002"));
 
 app.use(function (req, res, next) {
   res.locals.user = req.session.user;
