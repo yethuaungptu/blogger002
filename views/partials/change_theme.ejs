@@ -1,0 +1,19 @@
+<script>
+  let theme = localStorage.getItem("data-theme");
+  document.documentElement.setAttribute("data-theme", theme);
+  setIcon(theme);
+  function changeTheme(val) {
+    localStorage.setItem("data-theme", val);
+    document.documentElement.setAttribute("data-theme", val);
+    setIcon(val);
+  }
+  function setIcon(val) {
+    if (val == "light") {
+      document.getElementById("dark").classList.remove("outline");
+      document.getElementById("light").classList.add("outline");
+    } else {
+      document.getElementById("light").classList.remove("outline");
+      document.getElementById("dark").classList.add("outline");
+    }
+  }
+</script>

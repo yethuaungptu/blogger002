@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="retro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post Detail</title>
+    <script src="/javascripts/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <!-- <style>
+      #section1 {
+        width: 100%;
+        height: 40%;
+        background-color: gray;
+        margin: 30px;
+      }
+      #section11 {
+        width: 47%;
+        float: left;
+      }
+      #section12 {
+        width: 50%;
+        float: right;
+      }
+      #btnlogin {
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+        background-color: lightblue;
+      }
+      #text-in {
+        display: inline-block;
+      }
+      #comment {
+        display: block;
+      }
+      #btncomment {
+        padding: 3px;
+        margin-top: 5px;
+        width: 54%;
+        background-color: lightgoldenrodyellow;
+        border-radius: 5px;
+      }
+      #section2 {
+        display: block;
+        margin-top: 30%;
+      }
+      .com-rep {
+        border: 1px solid greenyellow;
+        margin: 10px;
+        padding: 10px;
+      }
+      .rep-body {
+        text-align: end;
+      }
+    </style> -->
+  </head>
+  <body>
+    <% include ./partials/navbar %>
+    <section class="text-gray-600 body-font overflow-hidden">
+      <div class="container px-5 py-24 mx-auto">
+        <div class="lg:w-4/5 mx-auto flex flex-wrap">
+          <img
+            alt="ecommerce"
+            class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
+            src="<%= post.image %>"
+          />
+          <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+            <h2 class="text-sm title-font text-gray-500 tracking-widest">
+              <%= post.author.name %> <% if(locals.user){ if(favStatus.length >
+              0){%>
+              <button
+                class="btn btn-sm"
+                onclick="followauthor('<%= post.author._id %>','unfollow')"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 inline-block"
+                  viewBox="0 0 20 20"
+                  fill="red"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                Unfollow
+              </button>
+              <%}else{%>
+              <button
+                class="btn btn-sm"
+                onclick="followauthor('<%= post.author._id %>','follow')"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 inline-block"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                follow
+              </button>
+              <%}}%>
+            </h2>
+            <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">
+              <%= post.title %>
+            </h1>
+            <h2 class="text-sm title-font text-gray-500 tracking-widest">
+              <%= post.created %>
+            </h2>
+            <div class="border-b border-purple-600"></div>
+            <p class="leading-relaxed my-3"><%= post.content %></p>
+            <div class="border-b border-purple-600"></div>
+            <p class="leading-relaxed my-3">
+              Total Like &nbsp;&nbsp;&nbsp;&nbsp; <%= post.like.length %>
+            </p>
+            <% if(locals.user){%> <% if(reactStatus.length > 0){%>
+            <button
+              class="btn btn-default btn-sm mb-2"
+              onclick="givelike('<%= post._id %>','unlike')"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 inline-block"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5"
+                />
+              </svg>
+              Unlike
+            </button>
+            <%}else{%>
+            <button
+              class="btn btn-primary btn-sm mb-2"
+              onclick="givelike('<%= post._id %>','like')"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 inline-block"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"
+                />
+              </svg>
+              Like
+            </button>
+            <%}%>
+            <!--  -->
+            <%}%>
+            <div class="border-b border-purple-600"></div>
+            <div class="flex my-2">
+              <% if(locals.user){%>
+              <div>
+                <textarea
+                  class="textarea textarea-primary"
+                  placeholder="comment"
+                  rows="5"
+                  cols="55"
+                  id="comment"
+                ></textarea>
+                <div class="text-center">
+                  <button
+                    id="btncomment"
+                    class="btn center btn-primary btn-sm"
+                    onclick="givecomment('<%= post._id %>','<%= post.author._id %>')"
+                  >
+                    Commnet
+                  </button>
+                </div>
+              </div>
+              <%}else{%>
+              <div>
+                <p
+                  class="title-font font-medium text-xl text-gray-900 inline-block"
+                >
+                  Please login or register for comment
+                </p>
+                <a
+                  href="/login"
+                  class="inline-block ml-3 text-white bg-purple-500 border-0 py-2 px-6 focus:outline-none hover:bg-purple-600 rounded"
+                >
+                  Login
+                </a>
+              </div>
+              <%}%>
+              <!-- <span class="title-font font-medium text-2xl text-gray-900"
+                >$58.00</span
+              >
+              <button
+                class="flex ml-auto text-white bg-purple-500 border-0 py-2 px-6 focus:outline-none hover:bg-purple-600 rounded"
+              >
+                Button
+              </button>
+              <button
+                class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4"
+              >
+                <svg
+                  fill="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  class="w-5 h-5"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
+                  ></path>
+                </svg>
+              </button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <% for(var i = 0; i < comments.length; i++){%>
+      <div class="border-b-2 border-indigo-600 m-1">
+        <div class="card w-3/5 mr-auto rounded-lg m-4 bg-yellow-200 shadow-xl">
+          <div class="card-body">
+            <h2 class="card-title"><%= comments[i].commenter.name %></h2>
+            <h5 class="font-thin"><%= comments[i].created %></h5>
+            <p class="font-light"><%= comments[i].comment %></p>
+          </div>
+        </div>
+        <% if(comments[i].reply){%>
+        <div class="card w-3/5 ml-auto rounded-lg m-4 bg-blue-200 shadow-xl">
+          <div class="card-body">
+            <h2 class="text-right font-bold text-xl">
+              <%= post.author.name %> (Author)
+            </h2>
+            <h5 class="font-thin text-right"><%= comments[i].updated %></h5>
+            <p class="font-light text-right"><%= comments[i].reply %></p>
+          </div>
+        </div>
+        <%}%>
+      </div>
+      <%}%>
+    </section>
+  </body>
+  <script>
+    function givecomment(post, author) {
+      var data = { post: post, author: author, comment: $("#comment").val() };
+      $.ajax({
+        url: "/users/givecomment",
+        data: data,
+        type: "POST",
+      }).done(function (result) {
+        if (result.status == "error") {
+          alert("Somethngs was wrong");
+          $("#comment").val("");
+          $("#comment").focus();
+        } else {
+          location.reload();
+        }
+      });
+    }
+
+    function givelike(post, type) {
+      var data = { post: post, type: type };
+      $.ajax({
+        url: "/users/givelike",
+        data: data,
+        type: "POST",
+      }).done(function (result) {
+        if (result.status == "error") {
+          alert("Somethngs was wrong");
+        } else {
+          location.reload();
+        }
+      });
+    }
+    function followauthor(author, type) {
+      var data = { author: author, type: type };
+      $.ajax({
+        url: "/users/followauthor",
+        data: data,
+        type: "POST",
+      }).done(function (result) {
+        if (result.status == "error") {
+          alert("Somethngs was wrong");
+        } else {
+          location.reload();
+        }
+      });
+    }
+  </script>
+</html>
